@@ -134,19 +134,16 @@
             }else{
                 that.loading = true
                 this.$toast.success("登陆成功！请稍等~")
-                this.$store.commit("SET_CURRENT_USER", res.data)
+                this.$store.commit('SET_CURRENT_USER', res.data)
                 setTimeout(() => {
                   that.loading = false
                   that.$router.replace('/');
                 }, 1500)
               }
-              // console.log(res.data)
-              // console.log(res.data.email)
-              // this.$router.push('/sayHello')
             })
             .catch(err => {
               that.loading = false
-              this.$toast.error(err)
+              console.log(err)
             })
         }
       },

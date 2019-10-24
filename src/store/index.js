@@ -5,16 +5,22 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    currentUser:{},
+    currentUser: null,
     baseUrl:'http://39.108.138.143:8082'
   },
   mutations: {
     SET_CURRENT_USER: (state, payload) => {
-      state.userInfo = payload
-    },
+      //刷新后state中的数据就没有了，所以对于当前用户数据来说可以考虑存到session中
+      sessionStorage.setItem("currentUser",JSON.stringify(payload))
+      state.currentUser = payload
+    }
   },
   getters: {
-    getCurrentUser: (state) => state.userInfo,
+    getCurrentUser: (state) => {
+      if (!state.currentUser)
+        state.currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
+      return state.currentUser
+    },
     getBaseUrl: state => state.baseUrl
   },
   actions: {
