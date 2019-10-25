@@ -6,6 +6,14 @@
     <v-app-bar app color="primary" dark>
       <v-toolbar-title>综设III—论文投稿系统</v-toolbar-title>
     </v-app-bar>
+    <register-dialog
+      :dialog="registerDialog"
+      @on-change-dialog="changRegisterDialog"
+    ></register-dialog>
+    <reset-dialog
+      :dialog="resetDialog"
+      @on-change-reset-dialog="changeResetDialog"
+    ></reset-dialog>
     <v-content class="login-wrap">
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
@@ -85,8 +93,8 @@
               </v-card-text >
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn text>忘记密码</v-btn>
-                <v-btn text>注册</v-btn>
+                <v-btn color="primary" text @click="resetDialog = true">忘记密码</v-btn>
+                <v-btn color="primary" text @click="registerDialog = true">注册</v-btn>
                 <v-btn color="primary" @click="Login">登录</v-btn>
               </v-card-actions>
             </v-card>
@@ -102,13 +110,21 @@
 
 <script>
   import userApi from "@/api/userApi.js"
+  import RegisterDialog from '@/components/login/RegisterDialog.vue'
+  import ResetDialog from '@/components/login/ResetDialog.vue'
   export default {
     name: "Login",
+    components:{
+      RegisterDialog,
+      ResetDialog
+    },
     data(){
       return{
         valid: true,//开启表单的检查
         showPassword: false,
         loading: false,
+        registerDialog: false,
+        resetDialog: false,
         loginInfo:{
           email:'',
           password:''
@@ -147,6 +163,12 @@
             })
         }
       },
+      changRegisterDialog(val) {
+        this.registerDialog = val
+      },
+      changeResetDialog(val) {
+        this.resetDialog = val
+      }
     }
   }
 </script>

@@ -23,7 +23,7 @@ axios.interceptors.response.use(
         // 网络错误统一在此处理
         if (err.response && err.response.status === 401) {
           Vue.prototype.$toast.error("您没有相应的权限")
-          router.go(-1)
+        //   router.go(-1)
         }else {
           Vue.prototype.$toast.error("~~网络出小差了~~")
         }

@@ -4,6 +4,12 @@ export default {
     login(params) {
         return new methodPost("/login", params)
     },
+    register(params) {
+        return new methodPost('/user/signUp', params)
+    },
+    resetPassword(params) {
+        return new methodGet('/user/resetPassword', {email: params})
+    },
     sayHello(){
         return new methodGet("/sayHello")
     },

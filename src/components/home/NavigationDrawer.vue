@@ -74,7 +74,7 @@ export default {
         },
         set(val) {
           //drawer_改变由父组件控制
-          this.$emit("on-change-grant", val);
+          this.$emit("on-change-drawer", val);
         }
       },
       headImgUrl:  function() {

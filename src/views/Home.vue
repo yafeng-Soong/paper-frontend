@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <navigation-drawer
       :drawer="drawer"
-      @on-change-grant="changeDrawer"
+      @on-change-drawer="changeDrawer"
     >
     </navigation-drawer>
 
