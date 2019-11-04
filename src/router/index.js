@@ -24,6 +24,11 @@ const routes = [
         path: '/modifyInfo',
         name: 'ModifyInfo',
         component: () => import('../views/user/ModifyInfo.vue')
+      },
+      {
+        path: '/submit',
+        name: 'Submit',
+        component: () => import('../views/Submit.vue')
       }
     ]
   },

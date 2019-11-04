@@ -25,4 +25,10 @@ export default {
     logout(){
         return new methodGet("/logout")
     },
+    paperFileUpload(params){
+        return new methodPost("/paper/fileUpload", params)
+    },
+    paperSubmit(params){
+        return new methodPost("/paper/submit", params)
+    }
 }
