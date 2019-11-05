@@ -7,7 +7,7 @@
             class="upload-demo"
             ref="upload"
             action=""
-            accept="application/msword, text/plain"
+            accept="application/msword, application/pdf, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             :auto-upload="false"
             :limit="1"
             :http-request="uploadPaper"
@@ -30,7 +30,7 @@
         <el-form-item label="其他说明">
           <el-input :rows="2" type="textarea" v-model="paper.note"></el-input>
         </el-form-item>
-        
+
         <el-form-item>
           <el-button type="primary" @click.prevent="submit('ruleForm')">提交</el-button>
           <el-button @click="cancel">取消</el-button>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import userApi from "@/api/userApi.js"
+import paperApi from "@/api/paperApi.js"
 
 export default {
   name: 'Submit',
@@ -75,7 +75,7 @@ export default {
       let that = this;
       const formData = new FormData();
       formData.append('file', param.file);
-      userApi.paperFileUpload(formData)
+      paperApi.paperFileUpload(formData)
         .then(res => {
           if (res.code === 200) {
             console.log('上传论文成功！');
@@ -107,12 +107,12 @@ export default {
           if(!that.paper.note){
             that.paper.note = "null";
           }
-          userApi.paperSubmit(that.paper)
+          paperApi.paperSubmit(that.paper)
             .then(res => {
               if (res.code === 200){
                 that.$alert(res.data, '提交成功', {
                   confirmButtonText: '确定',
-                  callback: action => {
+                  callback: () => {
                     that.$router.replace('/');
                   }
                 });

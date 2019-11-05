@@ -196,10 +196,10 @@
             this.$toast.success('上传头像成功')
           }else {
             this.$toast.error(res.msg)
+            setTimeout(() => {
+              window.location.reload()
+            }, 1200)
           }
-          setTimeout(() => {
-            window.location.reload()
-          }, 1200)
         }).catch(res => {
           console.log('头像上传失败')
           console.log(res)
@@ -214,13 +214,13 @@
 
 <style lang="scss" scoped>
 
-  .box-card >>> .el-card__header{
-    padding: 0;
-  }
-  .box-card >>> .el-card__body{
-    position: relative;
-    margin: 0 20px 24px;
-  }
+  // .box-card >>> .el-card__header{
+  //   padding: 0;
+  // }
+  // .box-card >>> .el-card__body{
+  //   position: relative;
+  //   margin: 0 20px 24px;
+  // }
   .el-input{
     width: 400px;
   }
