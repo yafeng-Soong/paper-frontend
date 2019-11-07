@@ -30,6 +30,44 @@ const routes = [
         path: '/submit',
         name: 'Submit',
         component: () => import('../views/paper/Submit.vue')
+      },
+      {
+        path: '/mypaper',
+        name: 'Mypaper',
+        component: () => import('../views/paper/Mypaper.vue')
+      },
+      {
+        path: '/paper',
+        name: 'Paper',
+        component: () => import('../views/paper/Paper.vue'),
+        redirect: '/paper/info',
+        children: [
+          {
+            path: 'info',
+            name: 'Info',
+            component: () => import('../views/paper/paperInfo/Info.vue')
+          },
+          {
+            path: 'download',
+            name: 'Download',
+            component: () => import('../views/paper/paperInfo/Download.vue')
+          },
+          {
+            path: 'process',
+            name: 'Process',
+            component: () => import('../views/paper/paperInfo/Process.vue')
+          },
+          {
+            path: 'pay',
+            name: 'Pay',
+            component: () => import('../views/paper/paperInfo/Pay.vue')
+          },
+          {
+            path: 'publish',
+            name: 'Publish',
+            component: () => import('../views/paper/paperInfo/Publish.vue')
+          }
+        ]
       }
     ]
   },
