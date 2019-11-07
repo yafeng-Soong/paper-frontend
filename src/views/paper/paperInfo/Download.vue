@@ -9,7 +9,7 @@
 //import paperApi from "@/api/paperApi.js"
 
 export default {
-  name: 'info',
+  name: 'download',
   components: {
   },
   data(){
