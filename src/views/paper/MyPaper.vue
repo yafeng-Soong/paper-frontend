@@ -32,7 +32,7 @@
 import paperApi from "@/api/paperApi.js"
 
 export default {
-  name: 'mypaper',
+  name: 'myPaper',
   components: {
   },
   data(){

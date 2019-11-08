@@ -47,7 +47,7 @@ export default {
     data() {
         return {
             items: [
-            {title: '我的投稿', icon: 'mdi-home', url: '/mypaper'},
+            {title: '我的投稿', icon: 'mdi-home', url: '/myPaper'},
             {title: '投递稿件', icon: 'mdi-file-upload', url: '/submit'},
             {title: '个人信息', icon: 'mdi-contact-mail', url: '/modifyInfo'},
             {title: '更多功能', icon: 'mdi-power', url: '/test'}
