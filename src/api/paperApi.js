@@ -9,5 +9,8 @@ export default {
   },
   paperSearchAll(params){
     return new methodPost("/paper/all", params)
+  },
+  paperCancel(params){
+    return new methodPost("/paper/cancel", params)
   }
 }
