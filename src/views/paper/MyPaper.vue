@@ -1,10 +1,24 @@
 <template>
-  <el-card
-    style="width: 60%; margin-left: 20%; height: 500px">
-    <div slot="header" class="clearfix">
-      <span style="font-size: x-large">我的投稿</span>
-    </div>
+  <v-card
+    style="width: 60%; margin-left: 20%">
+    <v-toolbar  dark color="primary">
+      <v-toolbar-title style="font-size: x-large">我的投稿</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-text-field
+        hide-details
+        single-line
+        prepend-inner-icon="search"
+        placeholder="查找"
+        style="width: 10px"
+      ></v-text-field>
+      <v-btn icon title="投稿"><v-icon>mdi-plus-circle</v-icon></v-btn>
+      <template #extension>
+        总计{{pageInfo.total}}篇
+      </template>
+    </v-toolbar>
     <el-table
+      class="pa-4"
+      style="height: 400px;"
       :data="list"
       align-center justify-center>
       <el-table-column
@@ -16,7 +30,7 @@
       <el-table-column
         prop="checkStatus"
         label="状态"
-        width="120">
+        width="140">
       </el-table-column>
       <el-table-column
         prop="updateTime"
@@ -26,40 +40,47 @@
         label="操作"
         width="180">
         <template slot-scope="scope">
-<!--          <el-button @click="detail(scope.row)" type="text" size="small">编辑</el-button>-->
           <v-btn @click="detail(scope.row)" text icon color="primary" title="论文详情">
             <v-icon>subject</v-icon>
           </v-btn>
-          <v-btn v-if="scope.row.checkStatus !== '已撤回'" text icon color="success" title="下载" @click="downloadFile(scope.row)">
+          <v-btn v-if="downloadAble(scope.row)" text icon color="success" title="下载" @click="downloadFile(scope.row)">
             <v-icon>cloud_download</v-icon>
           </v-btn>
-          <v-btn v-if="scope.row.checkStatus !== '已撤回'" text icon color="warning" title="更新">
+          <v-btn v-if="updateAble(scope.row)" text icon color="warning" title="更新">
             <el-upload
               :show-file-list="false"
               action=""
+              :data="scope.row"
               accept="application/msword, application/pdf, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-
+              :http-request="updateFile"
               :before-upload="beforeUpload">
               <v-icon>cloud_upload</v-icon>
             </el-upload>
           </v-btn>
-          <v-btn v-if="scope.row.checkStatus !== '已撤回'" text icon color="error" title="撤回" @click="cancel(scope.row)">
+          <v-btn v-if="cancelAble(scope.row)" text icon color="error" title="撤回" @click="cancel(scope.row)">
             <v-icon>block</v-icon>
           </v-btn>
         </template>
       </el-table-column>
     </el-table>
-  </el-card>
+    <v-card-actions>
+      <pagination
+        :currentPage="pageInfo.pageNum"
+        :total="pageInfo.pages" @on-change-page="changePage"></pagination>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
 // @ is an alias to /src
 import paperApi from "@/api/paperApi.js"
 import axios from 'axios';
+import Pagination from '@/components/common/Pagination.vue'
 
 export default {
   name: 'myPaper',
   components: {
+    Pagination
   },
   data(){
     return {
@@ -77,25 +98,41 @@ export default {
       list: []
     }
   },
-  mounted: function () {
-    let that = this;
-    paperApi.paperSearchAll(that.pageInfo)
-      .then(res => {
-        console.log(res);
-        if (res.code === 200) {
-          that.list = res.data.data;
-          that.pageInfo.pages = res.data.pages
-          that.pageInfo.total = res.data.total
-        }else{
-          console.log('获取论文列表失败！');
-        }
-      })
-      .catch(err => {
-        console.log('网络错误！'+err);
-        that.$message.error(err);
-      })
+  mounted() {
+    this.getPaperList();
   },
   methods:{
+    downloadAble(val){
+      return val.checkStatus !== '已撤回';
+    },
+    updateAble(val){
+      return val.checkStatus === '待审核' || val.checkStatus === '待修改';
+    },
+    cancelAble(val){
+      return val.checkStatus === '待审核';
+    },
+    getPaperList(){
+      let that = this;
+      paperApi.paperSearchAll(that.pageInfo)
+        .then(res => {
+          console.log(res);
+          if (res.code === 200) {
+            that.list = res.data.data;
+            that.pageInfo.pages = res.data.pages;
+            that.pageInfo.total = res.data.total;
+          }else{
+            console.log('获取论文列表失败！');
+            this.$toast.error(res.msg);
+          }
+        })
+        .catch(err => {
+          console.log('网络错误！'+err);
+        })
+    },
+    changePage(val){
+      this.pageInfo.pageNum = val;
+      this.getPaperList();
+    },
     downloadFile(param){
       let url = this.$store.getters.getBaseUrl + param.filePath;
       axios({
@@ -123,6 +160,45 @@ export default {
         this.$toast.error('上传文件大小不能超过 15MB!');
       }
       return isLt2M;
+    },
+    updateFile(param) {
+      let that = this;
+      let paper = {
+        note: "更新了文件",
+        filePath: null,
+        id: param.data.id
+      };
+      const formData = new FormData();
+      formData.append('file', param.file);
+      paperApi.paperFileUpload(formData)
+        .then(res => {
+          if (res.code === 200) {
+            console.log('更新文件成功！');
+            paper.filePath = res.data;
+            paperApi.paperUpdate(paper)
+              .then(res => {
+                if (res.code === 200){
+                  console.log("更新记录成功！")
+                  that.$toast.success("更新成功！");
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 1000)
+                }else {
+                  console.log('更新记录失败！' + res.data);
+                  that.$toast.error(res.msg);
+                }
+              })
+              .catch(err => {
+                console.log("网络出错" + err)
+              })
+          }else{
+            console.log('更新文件失败！' + res.data);
+            that.$toast.error(res.msg);
+          }
+        })
+        .catch(err => {
+          console.log('网络错误！'+err);
+        })
     },
     detail(param){
       this.$store.commit('setPaperInfo', param);
