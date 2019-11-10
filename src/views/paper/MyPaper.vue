@@ -17,8 +17,8 @@
       </template>
     </v-toolbar>
     <el-table
-      class="pa-4"
-      style="height: 400px;"
+      class="pa-2"
+      style="height: 360px;"
       :data="list"
       align-center justify-center>
       <el-table-column
