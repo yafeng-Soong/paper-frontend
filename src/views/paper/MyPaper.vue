@@ -74,7 +74,7 @@
 <script>
 // @ is an alias to /src
 import paperApi from "@/api/paperApi.js"
-import axios from 'axios';
+//import axios from 'axios';
 import Pagination from '@/components/common/Pagination.vue'
 
 export default {
@@ -134,25 +134,22 @@ export default {
       this.getPaperList();
     },
     downloadFile(param){
-      let url = this.$store.getters.getBaseUrl + param.filePath;
-      axios({
-        url: url,
-        method: 'GET',
-        responseType: 'blob',
-      }).then(res => {
-        let filename = param.filePath.split("/").pop();
-        const url = window.URL.createObjectURL(new Blob([res.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', filename);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-      }).catch(err => {
-        console.log(err)
-        this.$toast.error("下载文件出错！")
-      });
+      paperApi.paperDownload(param.id)
+        .then(res => {
+          let filename = param.name;
+          const url = window.URL.createObjectURL(new Blob([res]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', filename);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+          })
+        .catch(err => {
+          console.log(err)
+          this.$toast.error("下载文件出错！")
+        })
     },
     beforeUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 15;

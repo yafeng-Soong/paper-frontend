@@ -9,14 +9,14 @@
       <el-col :span="18"><div class="el-col bg-purple-light">{{paperInfo.name}}</div></el-col>
     </el-row>
     <el-row :gutter="12">
-      <el-col :span="6"><div class="el-col bg-purple">收稿时间</div></el-col>
-      <el-col :span="6"><div class="el-col bg-purple-light">{{paperInfo.createTime}}</div></el-col>
-      <el-col :span="6"><div class="el-col bg-purple">稿件状态</div></el-col>
-      <el-col :span="6"><div class="el-col bg-purple-light">{{paperInfo.checkStatus}}</div></el-col>
-    </el-row>
-    <el-row :gutter="12">
       <el-col :span="6"><div class="el-col bg-purple">更新时间</div></el-col>
       <el-col :span="6"><div class="el-col bg-purple-light">{{paperInfo.updateTime}}</div></el-col>
+      <el-col :span="6"><div class="el-col bg-purple">收稿时间</div></el-col>
+      <el-col :span="6"><div class="el-col bg-purple-light">{{paperInfo.createTime}}</div></el-col>
+    </el-row>
+    <el-row :gutter="12">
+      <el-col :span="6"><div class="el-col bg-purple">稿件状态</div></el-col>
+      <el-col :span="18"><div class="el-col bg-purple-light">{{paperInfo.checkStatus}}</div></el-col>
     </el-row>
     <el-button-group style="margin-bottom: 15px">
       <el-button type="info" plain @click="ttInfo" autofocus>当前稿件信息</el-button>

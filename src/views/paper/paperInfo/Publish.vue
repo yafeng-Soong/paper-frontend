@@ -1,6 +1,9 @@
 <template>
   <div>
-    publish
+    <el-row :gutter="12">
+      <el-col :span="3"><div class="el-col bg-purple">发表情况</div></el-col>
+      <el-col :span="15"><div class="el-col bg-purple-light">{{paperInfo.checkStatus}}</div></el-col>
+    </el-row>
   </div>
 </template>
 
@@ -14,9 +17,26 @@ export default {
   },
   data(){
     return {
+      paperInfo: {}
     }
+  },
+  mounted: function () {
+    this.paperInfo = this.$store.getters.getPaperInfo;
   },
   methods:{
   }
 }
 </script>
+
+<style>
+  .el-col {
+    border-radius: 4px;
+    padding: 5px 0 5px 10px;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+</style>

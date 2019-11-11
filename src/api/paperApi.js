@@ -1,4 +1,4 @@
-import {methodPost, methodPut} from "./index";
+import {methodPost, methodPut, methodGet} from "./index";
 
 export default {
   paperFileUpload(params){
@@ -15,5 +15,8 @@ export default {
   },
   paperUpdate(params){
     return new methodPut("/paper/reSubmit", params)
+  },
+  paperDownload(params) {
+      return new methodGet('/paper/download', {paperId: params})
   }
 }
