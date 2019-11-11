@@ -113,9 +113,11 @@ export default {
                 that.$alert(res.data, '提交成功', {
                   confirmButtonText: '确定',
                   callback: () => {
-                    that.$router.replace('/');
+                    that.$router.replace('/home');
                   }
                 });
+              }else {
+                this.$toast.error(res.data)
               }
             })
             .catch(err => {

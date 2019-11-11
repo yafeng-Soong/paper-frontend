@@ -153,7 +153,7 @@
                 this.$store.commit('SET_CURRENT_USER', res.data)
                 setTimeout(() => {
                   that.loading = false
-                  that.$router.replace('/');
+                  that.$router.replace('/home');
                 }, 1500)
               }
             })
