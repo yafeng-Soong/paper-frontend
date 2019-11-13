@@ -18,5 +18,8 @@ export default {
   },
   paperDownload(params) {
       return new methodGet('/paper/download', {paperId: params})
+  },
+  paperOperationDetail(params){
+    return new methodPost("/paper/operation/detail", params)
   }
 }

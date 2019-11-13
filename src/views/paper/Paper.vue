@@ -31,7 +31,7 @@
 
 <script>
 // @ is an alias to /src
-//import paperApi from "@/api/paperApi.js"
+import paperApi from "@/api/paperApi.js"
 
 export default {
   name: 'paper',
@@ -44,6 +44,7 @@ export default {
   },
   mounted: function () {
     this.paperInfo = this.$store.getters.getPaperInfo;
+    this.setOperationDetail();
   },
   methods:{
     ttInfo(){
@@ -60,6 +61,50 @@ export default {
     },
     ttPublish(){
       this.$router.replace("/paper/publish")
+    },
+    setOperationDetail(){
+      let id = this.$store.getters.getPaperInfo.id;
+      let params = {
+        "pageNum": 0,
+        "pageSize": 0,
+        "paperId": id
+      };
+      paperApi.paperOperationDetail(params)
+        .then(res => {
+          if (res.code === 200) {
+            let list = res.data.data;
+            for(let i=0; i<list.length; i++){
+              switch(list[i].type){
+                case 0:
+                  list[i].type = '待审核';
+                  break;
+                case 1:
+                  list[i].type = '待修改';
+                  break;
+                case 2:
+                  list[i].type = '已通过待付款';
+                  break;
+                case 3:
+                  list[i].type = '已付款';
+                  break;
+                case 4:
+                  list[i].type = '已撤回';
+                  break;
+              }
+              if(list[i].note==='null'){
+                list[i].note = '无';
+              }
+            }
+            console.log(list);
+            this.$store.commit('setOperationDetail', list);
+          }else{
+            console.log('获取操作列表失败！');
+            this.$toast.error(res.msg);
+          }
+        })
+        .catch(err => {
+          console.log('网络错误！'+err);
+        })
     }
   }
 }
