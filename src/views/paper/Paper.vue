@@ -73,27 +73,10 @@ export default {
         .then(res => {
           if (res.code === 200) {
             let list = res.data.data;
+            let statusWord = ["待审核", "待修改", "已通过待付款", "已付款", "已撤回"];
             for(let i=0; i<list.length; i++){
-              switch(list[i].type){
-                case 0:
-                  list[i].type = '待审核';
-                  break;
-                case 1:
-                  list[i].type = '待修改';
-                  break;
-                case 2:
-                  list[i].type = '已通过待付款';
-                  break;
-                case 3:
-                  list[i].type = '已付款';
-                  break;
-                case 4:
-                  list[i].type = '已撤回';
-                  break;
-              }
-              if(list[i].note==='null'){
-                list[i].note = '无';
-              }
+              list[i].type = statusWord[list[i].type];
+              list[i].note = list[i].note==='null'?'无':list[i].note;
             }
             console.log(list);
             this.$store.commit('setOperationDetail', list);
