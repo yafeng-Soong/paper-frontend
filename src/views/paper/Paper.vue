@@ -31,7 +31,7 @@
 
 <script>
 // @ is an alias to /src
-import paperApi from "@/api/paperApi.js"
+//import paperApi from "@/api/paperApi.js"
 
 export default {
   name: 'paper',
@@ -44,7 +44,6 @@ export default {
   },
   mounted: function () {
     this.paperInfo = this.$store.getters.getPaperInfo;
-    this.setOperationDetail();
   },
   methods:{
     ttInfo(){
@@ -61,33 +60,6 @@ export default {
     },
     ttPublish(){
       this.$router.replace("/paper/publish")
-    },
-    setOperationDetail(){
-      let id = this.$store.getters.getPaperInfo.id;
-      let params = {
-        "pageNum": 0,
-        "pageSize": 0,
-        "paperId": id
-      };
-      paperApi.paperOperationDetail(params)
-        .then(res => {
-          if (res.code === 200) {
-            let list = res.data.data;
-            let statusWord = ["待审核", "待修改", "已通过待付款", "已付款", "已撤回"];
-            for(let i=0; i<list.length; i++){
-              list[i].type = statusWord[list[i].type];
-              list[i].note = list[i].note==='null'?'无':list[i].note;
-            }
-            console.log(list);
-            this.$store.commit('setOperationDetail', list);
-          }else{
-            console.log('获取操作列表失败！');
-            this.$toast.error(res.msg);
-          }
-        })
-        .catch(err => {
-          console.log('网络错误！'+err);
-        })
     }
   }
 }

@@ -7,8 +7,7 @@ export default new Vuex.Store({
   state: {
     currentUser: null,
     baseUrl:'http://39.108.138.143:8082',
-    paperInfo: null,
-    operationDetail: null
+    paperInfo: null
   },
   mutations: {
     SET_CURRENT_USER: (state, payload) => {
@@ -19,10 +18,6 @@ export default new Vuex.Store({
     setPaperInfo: (state, payload) => {
       sessionStorage.setItem("paperInfo",JSON.stringify(payload))
       state.paperInfo = payload
-    },
-    setOperationDetail: (state, payload) => {
-      sessionStorage.setItem("operationDetail",JSON.stringify(payload))
-      state.operationDetail = payload
     }
   },
   getters: {
@@ -36,11 +31,6 @@ export default new Vuex.Store({
       if (!state.paperInfo)
         state.paperInfo = JSON.parse(sessionStorage.getItem("paperInfo"))
       return state.paperInfo
-    },
-    getOperationDetail: (state) => {
-      if (!state.operationDetail)
-        state.operationDetail = JSON.parse(sessionStorage.getItem("operationDetail"))
-      return state.operationDetail
     }
   },
   actions: {
