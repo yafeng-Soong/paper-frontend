@@ -12,10 +12,11 @@
             :limit="1"
             :http-request="uploadPaper"
             :on-exceed="handleExceed"
+            :before-upload="beforePaperUpload"
             >
             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
             <el-button style="margin-left: 10px;" size="small" type="success" @click="submitPaperUpload">上传文件</el-button>
-            <div class="el-upload__tip" slot="tip">注意！只能上传一份doc文件，选取文件后点击上传</div>
+            <div class="el-upload__tip" slot="tip">注意！只能上传一份doc文件(20M以内)，选取文件后点击上传</div>
           </el-upload>
         </el-form-item>
         <el-form-item label="论文标题" prop="name">
@@ -138,6 +139,14 @@ export default {
         }).then(() => {
           that.$router.replace('/');
         });
+    },
+    beforePaperUpload(file){
+      console.log("paper size check")
+        const isLt2M = file.size / 1024 / 1024 < 20;
+        if (!isLt2M) {
+          this.$message.error('上传论文大小不能超过 20MB!');
+        }
+        return isLt2M;
     }
   }
 }

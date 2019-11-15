@@ -88,7 +88,8 @@
                     label="密码"
                     :rules="pwdRules"
                     @click:append="showPassword = !showPassword"
-                    required></v-text-field>
+                    required
+                    @keyup.enter="Login"></v-text-field>
                 </v-form>
               </v-card-text >
               <v-card-actions>
