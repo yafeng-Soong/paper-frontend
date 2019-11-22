@@ -141,12 +141,11 @@ export default {
         });
     },
     beforePaperUpload(file){
-      console.log("paper size check")
-        const isLt2M = file.size / 1024 / 1024 < 20;
-        if (!isLt2M) {
-          this.$message.error('上传论文大小不能超过 20MB!');
-        }
-        return isLt2M;
+      const isLt15M = file.size / 1024 / 1024 < 15;
+      if (!isLt15M) {
+        this.$message.error('上传论文大小不能超过15MB!');
+      }
+      return isLt15M;
     }
   }
 }

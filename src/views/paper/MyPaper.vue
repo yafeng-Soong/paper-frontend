@@ -94,7 +94,6 @@ export default {
         paperId: 0,
         note: '撤销了投稿'
       },
-      statusWord: ["待审核", "待修改", "已通过待付款", "已付款", "已撤回"],
       list: []
     }
   },
@@ -115,7 +114,6 @@ export default {
       let that = this;
       paperApi.paperSearchAll(that.pageInfo)
         .then(res => {
-          console.log(res);
           if (res.code === 200) {
             that.list = res.data.data;
             that.pageInfo.pages = res.data.pages;
