@@ -69,8 +69,9 @@ export default {
   .table {
     width: 70%;
     margin-left: 15%;
-    position: absolute;
-    top: 20px;
+    padding: 10px;
+    /*position: absolute;*/
+    /*top: 20px;*/
   }
   .el-row {
     margin-bottom: 10px;
