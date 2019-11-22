@@ -23,7 +23,7 @@
     </el-table>
     <v-card-actions>
       <pagination
-        :currentPage="pageInfo.pageNum" 
+        :currentPage="pageInfo.pageNum"
         :total="pageInfo.pages"
         @on-change-page="changePage"></pagination>
     </v-card-actions>
@@ -50,7 +50,7 @@ export default {
         total: 0,
         pages: 1
       },
-      
+
     }
   },
   mounted: function () {
