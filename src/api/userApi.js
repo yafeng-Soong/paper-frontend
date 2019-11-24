@@ -24,5 +24,8 @@ export default {
     },
     logout(){
         return new methodGet("/logout")
+    },
+    charge(params){
+        return new methodGet("/user/charge", params)
     }
 }

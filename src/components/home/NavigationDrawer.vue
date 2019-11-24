@@ -4,16 +4,18 @@
       app
       temporary>
       <template v-slot:prepend>
-        <v-list-item two-line>
-          <v-list-item-avatar>
-            <img :src="headImgUrl">
-          </v-list-item-avatar>
+        <v-img :aspect-ratio="16/9" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
+          <v-list-item two-line>
+            <v-list-item-avatar>
+              <img :src="headImgUrl">
+            </v-list-item-avatar>
 
-          <v-list-item-content>
-            <v-list-item-title>{{userInfo.username}}</v-list-item-title>
-            <v-list-item-subtitle>{{userInfo.email}}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>{{userInfo.username}}</v-list-item-title>
+              <v-list-item-subtitle>{{userInfo.email}}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-img>
       </template>
       <v-divider></v-divider>
       <v-list >
@@ -47,10 +49,11 @@ export default {
     data() {
         return {
             items: [
-            {title: '我的投稿', icon: 'mdi-home', url: '/myPaper'},
-            {title: '投递稿件', icon: 'mdi-file-upload', url: '/submit'},
-            {title: '个人信息', icon: 'mdi-contact-mail', url: '/modifyInfo'},
-            {title: '更多功能', icon: 'mdi-power', url: '/test'}
+              {title: '我的投稿', icon: 'mdi-home', url: '/myPaper'},
+              {title: '投递稿件', icon: 'mdi-file-upload', url: '/submit'},
+              {title: '个人信息', icon: 'mdi-contact-mail', url: '/modifyInfo'},
+              {title: '账户充值', icon: 'mdi-cash-usd', url: '/charge'},
+              {title: '更多功能', icon: 'mdi-power', url: '/test'}
             ],
             userInfo: this.$store.getters.getCurrentUser
         }
