@@ -101,7 +101,12 @@ const routes = [
         path: '/papers',
         name: 'Papers',
         component: () => import('../views/preview/Papers.vue')
-      }
+      },
+      {
+        path: '/userInfo',
+        name: 'ModifyInfo',
+        component: () => import('../views/user/ModifyInfo.vue')
+      },
     ]
   }
 ]
