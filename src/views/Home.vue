@@ -35,7 +35,7 @@
         class="fill-height"
         fluid
       >
-        <v-layout align-center justify-center>
+        <v-layout justify-center>
           <v-flex xs12 sm12 md12>
             <router-view v-if="isRouterAlive"></router-view>
           </v-flex>

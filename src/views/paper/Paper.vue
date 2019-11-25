@@ -68,10 +68,8 @@ export default {
 <style>
   .table {
     width: 70%;
-    margin-left: 15%;
+    margin: 0 auto;
     padding: 10px;
-    /*position: absolute;*/
-    /*top: 20px;*/
   }
   .el-row {
     margin-bottom: 10px;

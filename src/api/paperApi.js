@@ -21,5 +21,8 @@ export default {
   },
   paperOperationDetail(params){
     return new methodPost("/paper/operation/detail", params)
+  },
+  pay(params){
+      return new methodPost("/paper/pay", params)
   }
 }
