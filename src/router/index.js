@@ -90,6 +90,19 @@ const routes = [
     path: '/previewLogin',
     name: 'PreviewLogin',
     component: () => import('../views/preview/PreviewLogin.vue')
+  },
+  {
+    path: '/review',
+    name: 'Review',
+    component: () => import('../views/preview/Review.vue'),
+    redirect: '/papers',
+    children: [
+      {
+        path: '/papers',
+        name: 'Papers',
+        component: () => import('../views/preview/Papers.vue')
+      }
+    ]
   }
 ]
 

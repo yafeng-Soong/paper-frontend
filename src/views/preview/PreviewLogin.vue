@@ -113,7 +113,7 @@
                 this.$store.commit('SET_CURRENT_USER', res.data)
                 setTimeout(() => {
                   that.loading = false
-                  that.$router.replace('/home');
+                  that.$router.replace('/review');
                 }, 1500)
               }else {
                 userApi.logout()
