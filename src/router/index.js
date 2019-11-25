@@ -86,6 +86,11 @@ const routes = [
     name: 'login',
     component: () => import('../views/Login.vue')
   },
+  {
+    path: '/previewLogin',
+    name: 'PreviewLogin',
+    component: () => import('../views/preview/PreviewLogin.vue')
+  }
 ]
 
 const router = new VueRouter({

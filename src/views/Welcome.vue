@@ -23,7 +23,7 @@
                   <v-spacer></v-spacer>
                   <v-btn color="primary" @click="contribute">进入投稿系统</v-btn>
                   <v-btn color="warning">进入编辑系统</v-btn>
-                  <v-btn color="success">进入审稿系统</v-btn>
+                  <v-btn color="success" @click="preview">进入审稿系统</v-btn>
                 </v-card-actions>
               </v-card>
             </v-carousel-item>
@@ -84,6 +84,9 @@
     methods:{
       contribute(){
         this.$router.push('/login')
+      },
+      preview(){
+        this.$router.push('/previewLogin')
       }
     }
   }

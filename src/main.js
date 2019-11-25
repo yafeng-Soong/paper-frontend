@@ -12,7 +12,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login' || to.path === '/')
+  if (to.path === '/login' || to.path === '/' || to.path === '/previewLogin')
     next()
   else {
     if (store.getters.getCurrentUser === null) {
