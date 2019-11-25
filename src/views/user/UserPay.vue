@@ -37,13 +37,7 @@
 
       <v-window-item :value="2">
         <v-card-text class="card-body">
-          <v-text-field
-            v-model="cash"
-            label="金额"
-            :rules="cashRule"
-            hint="请输入0~10000的整数"
-            type="text"
-          ></v-text-field>
+          是否支付 版面费 1800 元？
         </v-card-text>
         <v-divider></v-divider>
 
@@ -58,10 +52,8 @@
           <v-btn
             color="primary"
             depressed
-            :disabled="chargeDisable"
-            @click="charge"
-          >
-            充值
+            @click="pay">
+            确认支付
           </v-btn>
         </v-card-actions>
       </v-window-item>
@@ -74,28 +66,17 @@
             height="128"
             :src="finish"
           ></v-img>
-          <h3 class="title font-weight-light mb-2">您已完成本次充值</h3>
-          <span class="caption grey--text">快去支付稿费吧！</span>
+          <h3 class="title font-weight-light mb-2">您已完成本次支付</h3>
+          <span class="caption grey--text">请关闭此页面！</span>
         </div>
         <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            depressed
-            @click="next"
-          >
-            完成
-          </v-btn>
-        </v-card-actions>
       </v-window-item>
     </v-window>
-
   </v-card>
 </template>
 
 <script>
+  import paperApi from "@/api/paperApi.js";
   import userApi from "@/api/userApi.js"
   import ChargeRadio from '@/components/common/ChargeRadio.vue';
   export default {
@@ -103,6 +84,7 @@
     components: {
       ChargeRadio
     },
+    props:['paperId'],
     data() {
       return {
         step: 1,
@@ -125,8 +107,8 @@
       currentTitle () {
         switch (this.step) {
           case 1: return '选择支付方式'
-          case 2: return '输入充值金额'
-          default: return '充值完成'
+          case 2: return '确认支付'
+          default: return '支付完成'
         }
       },
       chargeDisable(){
@@ -136,25 +118,40 @@
     methods:{
       next () {
         this.step = this.step + 1 === 4
-          ? 1
+          ? 3
           : this.step + 1
       },
-      charge () {
-        let that = this
-        userApi.charge({charge: this.cash})
+      pay () {
+        let that = this;
+        userApi.charge({charge: 1800})
           .then(res => {
             if (res.code === 200){
-              this.$store.commit('SET_CURRENT_USER', res.data)
-              this.$toast.success("充值成功！")
-              that.step++
+              console.log("充值成功！")
             }else {
               console.log("充值失败~")
-              this.$toast.error("充值失败，请稍后再试")
             }
           })
+          .then(
+            paperApi.pay({cash: 1,
+                          paperId: this.paperId})
+            .then(res => {
+              console.log(res);
+              if (res.code === 200){
+                this.$toast.success("支付成功！")
+                that.step++
+              }else {
+                console.log("支付失败~")
+                this.$toast.error("支付失败，请稍后再试")
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+          )
           .catch(err => {
             console.log(err)
           })
+        
       },
       prev () {
         this.step--

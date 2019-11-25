@@ -1,6 +1,6 @@
 <template>
   <v-card
-    style="width: 60%; margin-left: 20%">
+    style="width: 60%; margin-left: 20%; margin-top: 3%">
     <v-toolbar  dark color="primary">
       <v-toolbar-title style="font-size: x-large">我的投稿</v-toolbar-title>
       <v-spacer></v-spacer>
