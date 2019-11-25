@@ -20,9 +20,9 @@
         label="操作">
         <template slot-scope="scope">
           <el-button v-if="scope.row.isPaid==='未交'" @click="handlePayClick()" type="success" size="small">付款</el-button>
-          <el-dialog title="付款" :visible.sync="payDialogVisible" fullscreen @close="closeDialog">
+          <v-dialog max-width="600px" title="付款" v-model="payDialogVisible" @close="closeDialog">
             <userPay :paperId="paperId"></userPay>
-          </el-dialog>
+          </v-dialog>
         </template>
       </el-table-column>
     </el-table>

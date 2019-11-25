@@ -151,7 +151,7 @@
           .catch(err => {
             console.log(err)
           })
-        
+
       },
       prev () {
         this.step--
@@ -161,11 +161,11 @@
 </script>
 
 <style lang="less" scoped>
-  .panel{
-    width: 50%;
-    margin-left: 25%;
-    margin-top: 3%;
-  }
+  /*.panel{*/
+  /*  width: 50%;*/
+  /*  margin-left: 25%;*/
+  /*  margin-top: 3%;*/
+  /*}*/
   .card-body{
     min-height: 300px;
   }

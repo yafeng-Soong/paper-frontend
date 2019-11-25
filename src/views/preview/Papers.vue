@@ -47,7 +47,7 @@
           <v-btn v-if="downloadAble(scope.row)" text icon color="success" title="下载" @click="downloadFile(scope.row)">
             <v-icon>cloud_download</v-icon>
           </v-btn>
-          <v-btn v-if="passAble(scope.row)" text icon color="accent" title="通过" @click="cancel(scope.row)">
+          <v-btn v-if="passAble(scope.row)" text icon color="accent" title="通过" @click="pass(scope.row)">
             <v-icon>mdi-read</v-icon>
           </v-btn>
           <v-btn v-if="cancelAble(scope.row)" text icon color="error" title="退回" @click="cancel(scope.row)">
@@ -82,6 +82,11 @@
           pages: 1,
           checkStatus: 0
         },
+        checkInfo: {
+          note: "",
+          paperId: null,
+          type: null
+        },
         list: []
       }
     },
@@ -97,6 +102,26 @@
       },
       cancelAble(val){
         return val.checkStatus === 0;
+      },
+      pass(val){
+        this.checkInfo.note = "论文立意新颖，结论具有说服力，通过审核！"
+        this.checkInfo.paperId = val.id
+        this.checkInfo.type = 4
+        reviewApi.check(this.checkInfo)
+          .then(res => {
+            if (res.code === 200){
+              this.$toast.success(res.msg)
+              setTimeout(() => {
+                window.location.reload()
+              }, 1000)
+            }else {
+              console.log(res.data)
+              this.$toast.error(res.msg)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
       },
       getPaperList(){
         let that = this;
