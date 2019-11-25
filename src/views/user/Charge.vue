@@ -108,10 +108,10 @@
         step: 1,
         choice: 0,
         pics: [
-          {src: require('@/assets/weChat.svg'), color: 'green'},
-          {src: require('@/assets/aliPay.svg'), color: 'blue'}
+          {src: require('@/assets/weChat.png'), color: 'green'},
+          {src: require('@/assets/aliPay.png'), color: 'blue'}
         ],
-        finish: require('@/assets/ok.svg'),
+        finish: require('@/assets/ok.png'),
         onboarding: 0,
         cashRule: [
           v => !!v || '必须输入金额字段',

@@ -6,7 +6,7 @@
           align="center"
           justify="center"
         >
-          <v-avatar class="radio" :color="color" size="120">
+          <v-avatar class="radio" :color="color" size="150">
             <v-img :src="src"></v-img>
           </v-avatar>
         </v-row>
