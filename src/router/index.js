@@ -89,18 +89,18 @@ const routes = [
   {
     path: '/previewLogin',
     name: 'PreviewLogin',
-    component: () => import('../views/preview/PreviewLogin.vue')
+    component: () => import('../views/review/PreviewLogin.vue')
   },
   {
     path: '/review',
     name: 'Review',
-    component: () => import('../views/preview/Review.vue'),
+    component: () => import('../views/review/Review.vue'),
     redirect: '/papers',
     children: [
       {
         path: '/papers',
         name: 'Papers',
-        component: () => import('../views/preview/Papers.vue')
+        component: () => import('../views/review/Papers.vue')
       },
       {
         path: '/userInfo',
