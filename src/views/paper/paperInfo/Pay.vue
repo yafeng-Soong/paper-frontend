@@ -18,8 +18,8 @@
       </el-table-column>
       <el-table-column
         label="操作">
-        <template slot-scope="scope">
-          <el-button v-if="scope.row.isPaid==='未交'" @click="handlePayClick()" type="success" size="small">付款</el-button>
+        <template>
+          <el-button v-if="checkStatus===true" @click="handlePayClick()" type="success" size="small">付款</el-button>
           <v-dialog max-width="600px" title="付款" v-model="payDialogVisible" @close="closeDialog">
             <userPay :paperId="paperId"></userPay>
           </v-dialog>
@@ -61,8 +61,6 @@ export default {
   methods:{
     handlePayClick() {
       this.payDialogVisible = true;
-      this.list[0].isPaid = '已交'
-      // 付款端口……
     },
     closeDialog(){
       this.$router.replace("/myPaper")

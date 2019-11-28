@@ -21,15 +21,9 @@
         text 
         icon 
         color="warning" 
-        title="更新">
-        <el-upload
-          :show-file-list="false"
-          action=""
-          accept="application/msword, application/pdf, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-          :http-request="updateFile"
-          :before-upload="beforeUpload">
-          <v-icon>cloud_upload</v-icon>
-        </el-upload>
+        title="更新"
+        @click="update()">
+        <v-icon>cloud_upload</v-icon>
       </v-btn>
       <v-chip v-if="!updateAble" outlined>当前状态不能上传</v-chip>
     </el-row>
@@ -38,7 +32,6 @@
 
 <script>
 // @ is an alias to /src
-import paperApi from "@/api/paperApi.js"
 import axios from 'axios';
 
 
@@ -85,51 +78,8 @@ export default {
         this.$toast.error("下载文件出错！")
       });
     },
-    beforeUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 15;
-      if (!isLt2M) {
-        this.$toast.error('上传文件大小不能超过 15MB!');
-      }
-      return isLt2M;
-    },
-    updateFile(param) {
-      let that = this;
-      let paper = {
-        note: "更新了文件",
-        filePath: null,
-        id: that.paperInfo.id
-      };
-      const formData = new FormData();
-      formData.append('file', param.file);
-      paperApi.paperFileUpload(formData)
-        .then(res => {
-          if (res.code === 200) {
-            console.log('更新文件成功！');
-            paper.filePath = res.data;
-            paperApi.paperUpdate(paper)
-              .then(res => {
-                if (res.code === 200){
-                  console.log("更新记录成功！")
-                  that.$toast.success("更新成功！");
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 1000)
-                }else {
-                  console.log('更新记录失败！' + res.data);
-                  that.$toast.error(res.msg);
-                }
-              })
-              .catch(err => {
-                console.log("网络出错" + err)
-              })
-          }else{
-            console.log('更新文件失败！' + res.data);
-            that.$toast.error(res.msg);
-          }
-        })
-        .catch(err => {
-          console.log('网络错误！'+err);
-        })
+    update(){
+      this.$router.push({ name: 'Submit', params: { paperId: this.paperInfo.id }})
     }
   }
 }

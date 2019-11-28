@@ -25,12 +25,12 @@
         :show-overflow-tooltip="true"
         prop="name"
         label="论文标题"
-        width="180">
+        width="300">
       </el-table-column>
       <el-table-column
         prop="checkStatus"
         label="状态"
-        width="140">
+        width="160">
       </el-table-column>
       <el-table-column
         prop="updateTime"
@@ -46,16 +46,8 @@
           <v-btn v-if="downloadAble(scope.row)" text icon color="success" title="下载" @click="downloadFile(scope.row)">
             <v-icon>cloud_download</v-icon>
           </v-btn>
-          <v-btn v-if="updateAble(scope.row)" text icon color="warning" title="更新">
-            <el-upload
-              :show-file-list="false"
-              action=""
-              :data="scope.row"
-              accept="application/msword, application/pdf, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-              :http-request="updateFile"
-              :before-upload="beforeUpload">
-              <v-icon>cloud_upload</v-icon>
-            </el-upload>
+          <v-btn v-if="updateAble(scope.row)" text icon color="warning" title="更新" @click="update(scope.row)">
+            <v-icon>cloud_upload</v-icon>
           </v-btn>
           <v-btn v-if="cancelAble(scope.row)" text icon color="error" title="撤回" @click="cancel(scope.row)">
             <v-icon>block</v-icon>
@@ -159,44 +151,9 @@ export default {
       }
       return isLt2M;
     },
-    updateFile(param) {
-      let that = this;
-      let paper = {
-        note: "更新了文件",
-        filePath: null,
-        id: param.data.id
-      };
-      const formData = new FormData();
-      formData.append('file', param.file);
-      paperApi.paperFileUpload(formData)
-        .then(res => {
-          if (res.code === 200) {
-            console.log('更新文件成功！');
-            paper.filePath = res.data;
-            paperApi.paperUpdate(paper)
-              .then(res => {
-                if (res.code === 200){
-                  console.log("更新记录成功！")
-                  that.$toast.success("更新成功！");
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 1000)
-                }else {
-                  console.log('更新记录失败！' + res.data);
-                  that.$toast.error(res.msg);
-                }
-              })
-              .catch(err => {
-                console.log("网络出错" + err)
-              })
-          }else{
-            console.log('更新文件失败！' + res.data);
-            that.$toast.error(res.msg);
-          }
-        })
-        .catch(err => {
-          console.log('网络错误！'+err);
-        })
+    update(param) {
+      this.$store.commit('setPaperInfo', param);
+      this.$router.push({ name: 'Submit', params: { paperId: param.id }})
     },
     detail(param){
       this.$store.commit('setPaperInfo', param);

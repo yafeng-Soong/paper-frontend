@@ -22,6 +22,9 @@
         <el-form-item label="论文标题" prop="name">
           <el-input v-model="paper.name"></el-input>
         </el-form-item>
+        <el-form-item label="作者" prop="author">
+          <el-input v-model="paper.author"></el-input>
+        </el-form-item>
         <el-form-item label="关键词" prop="keyword">
           <el-input v-model="paper.keyword"></el-input>
         </el-form-item>
@@ -33,7 +36,8 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click.prevent="submit('ruleForm')">提交</el-button>
+          <el-button v-if="!isUpdate" type="primary" @click.prevent="submit('ruleForm')">提交</el-button>
+          <el-button v-if="isUpdate" type="warning" @click.prevent="update('ruleForm')">更新</el-button>
           <el-button @click="cancel">取消</el-button>
         </el-form-item>
       </el-form>
@@ -51,12 +55,15 @@ export default {
   },
   data(){
     return {
+      isUpdate: false,
       paper: {
+        id: '',
         filePath: '',
         keyword: '',
         name: '',
         note:'',
-        summary: ''
+        summary: '',
+        author: ''
       },
       rules: {
         name: [
@@ -67,7 +74,27 @@ export default {
         ],
         summary: [
           {required: true, message: '请输入摘要', trigger: 'blur'}
+        ],
+        author: [
+          {required: true, message: '请输入作者', trigger: 'blur'}
         ]
+      }
+    }
+  },
+  mounted: function () {
+    this.paper.id = this.$route.params.paperId;
+    if(this.paper.id != undefined){
+      this.isUpdate = true;
+      let paperInfo = this.$store.getters.getPaperInfo;
+      if(paperInfo.id === this.paper.id){
+        this.paper.filePath = paperInfo.filePath;
+        this.paper.author = paperInfo.author;
+        this.paper.keyword = paperInfo.keyword;
+        this.paper.name = paperInfo.name;
+        this.paper.summary = paperInfo.summary;
+      }
+      else{
+        this.$message.error("更新出错，请重试");
       }
     }
   },
@@ -130,6 +157,39 @@ export default {
         }
       })
     },
+    update(formName){
+      let that = this;
+      if (!that.paper.filePath){
+        that.$message.error("请上传论文");
+        return;
+      }
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if(!that.paper.note){
+            that.paper.note = "null";
+          }
+          paperApi.paperUpdate(that.paper)
+            .then(res => {
+              if (res.code === 200){
+                that.$alert(res.data, '更新成功', {
+                  confirmButtonText: '确定',
+                  callback: () => {
+                    that.$router.replace('/home');
+                  }
+                });
+              }else {
+                this.$toast.error(res.data)
+              }
+            })
+            .catch(err => {
+              that.$message.error(err);
+            })
+        } else {
+          this.$message.error("请输入必填字段");
+          return false;
+        }
+      })
+    },
     cancel(){
       let that = this;
       this.$confirm('是否放弃提交?', '取消', {
@@ -137,7 +197,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          that.$router.replace('/');
+          that.$router.replace('/home');
         });
     },
     beforePaperUpload(file){

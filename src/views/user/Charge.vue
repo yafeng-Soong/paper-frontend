@@ -39,7 +39,7 @@
         <v-card-text class="card-body">
           <v-text-field
             v-model="cash"
-            label="金额"
+            :label="curCash"
             :rules="cashRule"
             hint="请输入0~10000的整数"
             type="text"
@@ -75,7 +75,7 @@
             :src="finish"
           ></v-img>
           <h3 class="title font-weight-light mb-2">您已完成本次充值</h3>
-          <span class="caption grey--text">快去支付稿费吧！</span>
+          <span class="caption grey--text">{{curCash}}，快去支付稿费吧！</span>
         </div>
         <v-divider></v-divider>
 
@@ -118,8 +118,13 @@
           v => /^\+?[1-9][0-9]*$/.test(v) || '请输入整数',
           v => (v > 0 && v < 10000) || '确保金额在0到10000之间'
         ],
-        cash: null
+        cash: null,
+        curCash: ""
       }
+    },
+    mounted: function () {
+      let cash = this.$store.getters.getCurrentUser.cash;
+      this.curCash = "充值 (当前金额:" + cash + "元)";
     },
     computed: {
       currentTitle () {
@@ -145,6 +150,7 @@
           .then(res => {
             if (res.code === 200){
               this.$store.commit('SET_CURRENT_USER', res.data)
+              this.curCash = "当前金额:" + res.data.cash + "元";
               this.$toast.success("充值成功！")
               that.step++
             }else {

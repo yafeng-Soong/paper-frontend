@@ -1,6 +1,10 @@
 <template>
   <div>
     <el-row :gutter="12">
+      <el-col :span="3"><div class="el-col bg-purple">作者</div></el-col>
+      <el-col :span="15"><div class="el-col bg-purple-light">{{paperInfo.author}}</div></el-col>
+    </el-row>
+    <el-row :gutter="12">
       <el-col :span="3"><div class="el-col bg-purple">摘要</div></el-col>
       <el-col :span="15"><div class="el-col bg-purple-light">{{paperInfo.summary}}</div></el-col>
     </el-row>

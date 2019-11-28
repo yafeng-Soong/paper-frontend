@@ -9,34 +9,6 @@
     <v-window v-model="step">
       <v-window-item :value="1">
         <v-card-text class="card-body">
-          <v-radio-group :column=false v-model="choice">
-            <v-row justify="center">
-              <v-col cols="6" v-for="pic in pics" :key="pic.color">
-                <charge-radio
-                  class="pa-12"
-                  :color="pic.color"
-                  :src="pic.src">
-                </charge-radio>
-              </v-col>
-            </v-row>
-          </v-radio-group>
-        </v-card-text>
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            depressed
-            @click="next"
-          >
-            继续
-          </v-btn>
-        </v-card-actions>
-      </v-window-item>
-
-      <v-window-item :value="2">
-        <v-card-text class="card-body">
           是否支付 版面费 1800 元？
         </v-card-text>
         <v-divider></v-divider>
@@ -58,7 +30,7 @@
         </v-card-actions>
       </v-window-item>
 
-      <v-window-item :value="3">
+      <v-window-item :value="2">
         <div class="pa-4 text-center">
           <v-img
             class="mb-4"
@@ -70,92 +42,72 @@
           <span class="caption grey--text">请关闭此页面！</span>
         </div>
         <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            depressed
+            @click="close">
+            关闭
+          </v-btn>
+        </v-card-actions>
       </v-window-item>
     </v-window>
   </v-card>
 </template>
 
 <script>
-  import paperApi from "@/api/paperApi.js";
-  import userApi from "@/api/userApi.js"
-  import ChargeRadio from '@/components/common/ChargeRadio.vue';
+  import paperApi from "@/api/paperApi.js"
   export default {
     name: "Charge",
     components: {
-      ChargeRadio
     },
     props:['paperId'],
     data() {
       return {
         step: 1,
-        choice: 0,
-        pics: [
-          {src: require('@/assets/weChat.png'), color: 'green'},
-          {src: require('@/assets/aliPay.png'), color: 'blue'}
-        ],
-        finish: require('@/assets/ok.png'),
-        onboarding: 0,
-        cashRule: [
-          v => !!v || '必须输入金额字段',
-          v => /^\+?[1-9][0-9]*$/.test(v) || '请输入整数',
-          v => (v > 0 && v < 10000) || '确保金额在0到10000之间'
-        ],
-        cash: null
+        finish: require('@/assets/ok.png')
       }
     },
     computed: {
       currentTitle () {
         switch (this.step) {
-          case 1: return '选择支付方式'
-          case 2: return '确认支付'
+          case 1: return '确认支付'
           default: return '支付完成'
         }
-      },
-      chargeDisable(){
-        return !(/^\+?[1-9][0-9]*$/.test(this.cash) && this.cash > 0 && this.cash < 10000)
       }
     },
     methods:{
       next () {
-        this.step = this.step + 1 === 4
-          ? 3
+        this.step = this.step + 1 === 3
+          ? 2
           : this.step + 1
       },
       pay () {
         let that = this;
-        userApi.charge({charge: 1800})
-          .then(res => {
-            if (res.code === 200){
-              console.log("充值成功！")
-            }else {
-              console.log("充值失败~")
-            }
-          })
-          .then(
-            paperApi.pay({cash: 1,
-                          paperId: this.paperId})
-            .then(res => {
-              console.log(res);
-              if (res.code === 200){
-                this.$toast.success("支付成功！")
-                that.step++
-              }else {
-                console.log("支付失败~")
-                this.$toast.error("支付失败，请稍后再试")
-              }
-            })
-            .catch(err => {
-              console.log(err)
-            })
-          )
-          .catch(err => {
-            console.log(err)
-          })
-
+        paperApi.pay({cash: 1800,
+                      paperId: that.paperId})
+        .then(res => {
+          if (res.code === 200){
+            this.$toast.success("支付成功！")
+            this.$store.commit('SET_CURRENT_USER', res.data)
+            that.step++
+          }else {
+            console.log("支付失败~")
+            this.$toast.error(res.data)
+            this.$router.replace("/charge")
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
       },
       prev () {
-        this.step--
+        this.$router.replace("/paper")
       },
+      close(){
+        this.$router.replace("/myPaper")
+      }
     }
   }
 </script>
