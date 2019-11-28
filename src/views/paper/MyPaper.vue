@@ -25,7 +25,7 @@
         :show-overflow-tooltip="true"
         prop="name"
         label="论文标题"
-        width="300">
+        width="180">
       </el-table-column>
       <el-table-column
         prop="checkStatus"
