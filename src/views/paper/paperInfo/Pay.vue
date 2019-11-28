@@ -20,7 +20,7 @@
         label="操作">
         <template>
           <el-button v-if="checkStatus===true" @click="handlePayClick()" type="success" size="small">付款</el-button>
-          <v-dialog max-width="600px" title="付款" v-model="payDialogVisible" @close="closeDialog">
+          <v-dialog max-width="600px" title="付款" v-model="payDialogVisible" @close="closeDialog" persistent="true">
             <userPay :paperId="paperId"></userPay>
           </v-dialog>
         </template>
