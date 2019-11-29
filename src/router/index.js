@@ -82,6 +82,14 @@ const routes = [
     ]
   },
   {
+    path: '/notification',
+    name: 'Notification',
+    meta: {
+        title: '录用通知'
+    },
+    component: () => import('../views/paper/paperInfo/Notification.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('../views/Login.vue')

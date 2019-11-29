@@ -20,7 +20,7 @@
     </el-row>
     <el-button-group style="margin-bottom: 15px">
       <el-button type="info" plain @click="ttInfo" autofocus>当前稿件信息</el-button>
-      <el-button type="info" plain @click="ttDownload">稿件全文</el-button>
+      <el-button type="info" plain @click="ttDownload">下载与更新</el-button>
       <el-button type="info" plain @click="ttProcess">稿件处理情况</el-button>
       <el-button type="info" plain @click="ttPay">本文费用情况</el-button>
       <el-button type="info" plain @click="ttPublish">发表情况</el-button>

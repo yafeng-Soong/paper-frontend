@@ -19,6 +19,9 @@ router.beforeEach((to, from, next) => {
       next('/login')
     } else next()
   }
+  if(to.meta.title){
+    document.title = to.meta.title;
+  }
 })
 
 new Vue({
