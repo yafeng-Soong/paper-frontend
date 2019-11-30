@@ -2,6 +2,7 @@
   <div>
     <pass-dialog :dialog="passDialog" :paper-id="paperId" @on-change-pass-dialog="changePassDialog"></pass-dialog>
     <reject-dialog :dialog="rejectDialog" :paper-id="paperId" @on-change-reject-dialog="changeRejectDialog"></reject-dialog>
+    <detail-dialog :dialog="detailDialog" :paper-info="paperInfo" @on-change-detail-dialog="changeDetailDialog"></detail-dialog>
     <v-card
       style="width: 60%; margin-left: 20%; margin-top: 3%">
       <v-toolbar  dark color="primary">
@@ -74,17 +75,20 @@
   import Pagination from '@/components/common/Pagination.vue'
   import PassDialog from "../../components/review/PassDialog"
   import RejectDialog from "../../components/review/RejectDialog";
+  import DetailDialog from "../../components/review/DetailDialog";
   export default {
     name: "Papers",
     components: {
       Pagination,
       PassDialog,
-      RejectDialog
+      RejectDialog,
+      DetailDialog
     },
     data(){
       return {
         passDialog: false,
         rejectDialog: false,
+        detailDialog: false,
         pageInfo: {
           pageNum: 1,
           pageSize: 5,
@@ -97,7 +101,8 @@
           paperId: null,
           type: null
         },
-        paperId:null,
+        paperId: null,
+        paperInfo: null,
         list: []
       }
     },
@@ -127,6 +132,14 @@
       },
       changeRejectDialog(val){
         this.rejectDialog = val
+      },
+      detail(val){
+        this.detailDialog = true
+        this.paperId = val.id
+        this.paperInfo = val
+      },
+      changeDetailDialog(val){
+        this.detailDialog = val
       },
       getPaperList(){
         let that = this;

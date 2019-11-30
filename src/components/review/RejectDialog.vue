@@ -11,6 +11,7 @@
           outlined
           name="reject"
           required
+          :rows="10"
           :rules="rejectRules"></v-textarea>
       </v-card-text>
       <v-card-actions>

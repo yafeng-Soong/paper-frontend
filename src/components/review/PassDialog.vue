@@ -11,6 +11,7 @@
           outlined
           name="pass"
           required
+          :rows="10"
           :rules="passRules"></v-textarea>
       </v-card-text>
       <v-card-actions>
