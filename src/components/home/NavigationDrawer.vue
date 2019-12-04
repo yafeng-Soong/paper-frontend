@@ -64,7 +64,7 @@ export default {
           .then(res =>{
             this.$toast.info(res)
             this.$store.commit('SET_CURRENT_USER', null)
-            this.$router.replace("/login")
+            this.$router.replace("/")
           })
           .catch(err =>{
             console.log(err)

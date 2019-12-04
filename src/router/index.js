@@ -116,6 +116,29 @@ const routes = [
         component: () => import('../views/user/ModifyInfo.vue')
       },
     ]
+  },
+  {
+    path: '/editorLogin',
+    name: 'EditorLogin',
+    component: () => import('../views/editor/EditorLogin.vue')
+  },
+  {
+    path: '/edit',
+    name: 'Edit',
+    component: () => import('../views/editor/Edit.vue'),
+    redirect: '/payedPapers',
+    children: [
+      {
+        path: '/payedPapers',
+        name: 'PayedPapers',
+        component: () => import('../views/editor/Papers.vue')
+      },
+      {
+        path: '/editInfo',
+        name: 'EditInfo',
+        component: () => import('../views/user/ModifyInfo.vue')
+      },
+    ]
   }
 ]
 

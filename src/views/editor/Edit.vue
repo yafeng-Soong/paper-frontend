@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <v-toolbar-title>综设III—专家审稿系统</v-toolbar-title>
+      <v-toolbar-title>综设III—编辑发表系统</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
@@ -41,13 +41,13 @@
 <script>
   import userApi from "../../api/userApi";
   export default {
-    name: "Review",
+    name: "Edit",
     data(){
       return {
         isRouterAlive: true,
         items: [
-          {title: '个人信息', icon: 'mdi-contact-mail', url: '/userInfo'},
-          {title: '论文审查', icon: 'mdi-file-find', url: '/papers'},
+          {title: '个人信息', icon: 'mdi-contact-mail', url: '/editInfo'},
+          {title: '论文审查', icon: 'mdi-file-find', url: '/payedPapers'},
           {title: '退出登录', icon: 'mdi-power', action: this.logout}
         ],
       }
