@@ -37,7 +37,7 @@ export default {
   },
   methods:{
     downloadAble(){
-      return this.paperInfo.checkStatus === '已付款';
+      return this.paperInfo.checkStatus === '已发表';
     },
     download(){
       let routeUrl = this.$router.resolve({
