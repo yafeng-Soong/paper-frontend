@@ -71,7 +71,7 @@ export default {
             that.pageInfo.pages = res.data.pages;
             that.pageInfo.total = res.data.total;
             let list = res.data.data;
-            let statusWord = ["提交", "修改", "支付", "退回", "通过","撤销"];
+            let statusWord = ["提交", "修改", "支付", "退回", "通过","撤销",'发表'];
             for(let i=0; i<list.length; i++){
               list[i].type = statusWord[list[i].type];
               list[i].note = list[i].note==='null'?'无':list[i].note;
