@@ -9,8 +9,8 @@
       </div>
       <div style="float: left; width: 350px">
         <div class="text-title">
-          <div style="font-size: 40px; letter-spacing: 7px;">综设III杂志</div>
-          <div style="font-size: 15px; margin-top: 15px">XXX XXX XXX XXX</div>
+          <div style="font-size: 40px; letter-spacing: 7px;">实验科学与技术</div>
+          <div style="font-size: 15px; margin-top: 15px; margin-left: -8px;">EXPERIMENT SCIENCE AND TECHNOLOGY</div>
         </div>
       </div>
     </div>
@@ -19,11 +19,11 @@
       <div>论文编号：{{paperInfo.id}}</div>
       <div>作者：{{paperInfo.author}}</div>
       <div>撰写的论文《{{paperInfo.name}}》，经过专家评审和学报编辑部研究，我刊决定正式录用。</div>
-      <div>国内统一刊号：CN XX-XXXX/X</div>
-      <div>国际标准刊号：ISSN XXXX-XXXX</div>
+      <div>国内统一刊号：CN 51-1653/N</div>
+      <div>国际标准刊号：ISSN 1627-4550</div>
       <div style="text-align: right; margin-top: 30px">
         <div>感谢对我刊的支持，欢迎继续投稿</div>
-        <div>《综设III杂志》编辑部</div>
+        <div>《实验科学与技术》编辑部</div>
         <div>{{getNowFormatDate()}}</div>
       </div>
       <div class="footer">地址：成都市建设北路二段4号电子科技大学</div>
